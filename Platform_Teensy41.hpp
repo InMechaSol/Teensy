@@ -24,6 +24,15 @@ Notes:
 
 */
 
+
+
+
+#include <Arduino.h>
+#include "execution_system.h"    
+#include "console_menu.h" 
+#define LIGHT_OFF (0u)                          // 1-PSoC4, 0-most others
+#define uSEC_PER_CLOCK (1000u)
+
 #if PLATFORM_NAME!=Arduino
 error PLATFORM_NAME must be Arduino
 #endif
@@ -35,13 +44,6 @@ error PLATFORM_NAME must be Arduino
 #ifndef __NOEXCEPTIONS
 #error Must compile with -D__NOEXCEPTIONS on Aduino ATMega (maybe others, need to test)
 #endif // !__NOEXCEPTIONS
-
-
-#include <Arduino.h>
-#include "execution_system.h"    
-#include "console_menu.h" 
-#define LIGHT_OFF (0u)                          // 1-PSoC4, 0-most others
-#define uSEC_PER_CLOCK (1000u)
 
 // 0) (Optional) Platform Config and Log Files/Devices
 // 1) Platform Setup Function
