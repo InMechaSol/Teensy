@@ -19,7 +19,78 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <None Include="build\build.options.json" />
+    <None Include="build\includes.cache" />
+    <None Include="build\Teensy.ino.eep" />
+    <None Include="build\Teensy.ino.elf" />
+    <None Include="build\Teensy.ino.hex" />
+    <None Include="build\Teensy.ino.sym" />
+    <None Include="Teensy.ino" />
     <None Include="TeensyBuild.bat" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="anticogging_client.hpp" />
+    <ClInclude Include="Application_Serialization.h" />
+    <ClInclude Include="Application_Serialization.hpp" />
+    <ClInclude Include="Application_Solution.h" />
+    <ClInclude Include="Application_Solution.hpp" />
+    <ClInclude Include="bipbuffer.h" />
+    <ClInclude Include="brushless_drive_client.hpp" />
+    <ClInclude Include="buzzer_control_client.hpp" />
+    <ClInclude Include="byte_queue.h" />
+    <ClInclude Include="client_communication.hpp" />
+    <ClInclude Include="communication_interface.h" />
+    <ClInclude Include="compute_module.h" />
+    <ClInclude Include="compute_module.hpp" />
+    <ClInclude Include="ConsoleAPI.h" />
+    <ClInclude Include="ConsoleAPI.hpp" />
+    <ClInclude Include="console_menu.h" />
+    <ClInclude Include="console_menu.hpp" />
+    <ClInclude Include="crc_helper.h" />
+    <ClInclude Include="esc_propeller_input_parser_client.hpp" />
+    <ClInclude Include="execution_system.h" />
+    <ClInclude Include="execution_system.hpp" />
+    <ClInclude Include="generic_interface.hpp" />
+    <ClInclude Include="GripperFW_Teensy_Main.hpp" />
+    <ClInclude Include="hobby_input_client.hpp" />
+    <ClInclude Include="io_device.h" />
+    <ClInclude Include="io_device.hpp" />
+    <ClInclude Include="multi_turn_angle_control_client.hpp" />
+    <ClInclude Include="PacketInterfaceAPI.h" />
+    <ClInclude Include="PacketInterfaceAPI.hpp" />
+    <ClInclude Include="packets_api.h" />
+    <ClInclude Include="packets_api.hpp" />
+    <ClInclude Include="packet_finder.h" />
+    <ClInclude Include="persistent_memory_client.hpp" />
+    <ClInclude Include="Platform_Teensy41.hpp" />
+    <ClInclude Include="power_monitor_client.hpp" />
+    <ClInclude Include="propeller_motor_control_client.hpp" />
+    <ClInclude Include="serial_interface_client.hpp" />
+    <ClInclude Include="servo_input_parser_client.hpp" />
+    <ClInclude Include="SmartMotorsDEV.h" />
+    <ClInclude Include="SmartMotorsDEV.hpp" />
+    <ClInclude Include="step_direction_input_client.hpp" />
+    <ClInclude Include="SuctionExtentionDEV.h" />
+    <ClInclude Include="SuctionExtentionDEV.hpp" />
+    <ClInclude Include="system_control_client.hpp" />
+    <ClInclude Include="temperature_estimator_client.hpp" />
+    <ClInclude Include="temperature_monitor_uc_client.hpp" />
+    <ClInclude Include="version_config.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Application_Serialization.cpp" />
+    <ClCompile Include="Application_Solution.cpp" />
+    <ClCompile Include="client_communication.cpp" />
+    <ClCompile Include="compute_module_class.cpp" />
+    <ClCompile Include="ConsoleAPI.cpp" />
+    <ClCompile Include="console_menu_class.cpp" />
+    <ClCompile Include="execution_system_class.cpp" />
+    <ClCompile Include="generic_interface.cpp" />
+    <ClCompile Include="io_device_class.cpp" />
+    <ClCompile Include="PacketInterfaceAPI.cpp" />
+    <ClCompile Include="packets_api_class.cpp" />
+    <ClCompile Include="SmartMotorsDEV.cpp" />
+    <ClCompile Include="SuctionExtentionDEV.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
