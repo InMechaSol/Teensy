@@ -9,5 +9,7 @@
 *.hpp
 !Platform_Teensy41.hpp
 !GripperFW_Teensy_Main.hpp
-build
-cache
+build/*
+!build/README.md
+cache/*
+!cache/README.md
