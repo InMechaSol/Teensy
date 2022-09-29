@@ -39,10 +39,10 @@ error PLATFORM_NAME must be Arduino
 
 
 #ifdef REDEFINE_NULLPTR
-#error Must not compile with -DREDEFINE_NULLPTR on Aduino ATMega (maybe others, need to test)
+#error Must not compile with -DREDEFINE_NULLPTR on Arduino Teensy (maybe others, need to test)
 #endif // !REDEFINE_NULLPTR
 #ifndef __NOEXCEPTIONS
-#error Must compile with -D__NOEXCEPTIONS on Aduino ATMega (maybe others, need to test)
+#error Must compile with -D__NOEXCEPTIONS on Arduino Teensy (maybe others, need to test)
 #endif // !__NOEXCEPTIONS
 
 // 0) (Optional) Platform Config and Log Files/Devices
