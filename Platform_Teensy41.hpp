@@ -45,32 +45,35 @@ error PLATFORM_NAME must be Arduino
 #error Must compile with -D__NOEXCEPTIONS on Arduino Teensy (maybe others, need to test)
 #endif // !__NOEXCEPTIONS
 
+
+int consoleCharInt = -1;
+
+
 // 0) (Optional) Platform Config and Log Files/Devices
 // 1) Platform Setup Function
 void platformSetup()
 {
-    //<platformSetup>
+    
 #ifdef __USINGCONSOLEMENU
 #ifdef __USINGFLOATPRINTF
     asm(".global _printf_float");
 #endif
 #endif
    
-    //</platformSetup>
+    Serial.begin(115200);
+    while (!Serial) {
+        ; // wait for serial port to connect. Needed for native USB port only
+    }
 }
 // 2) Platform Start Function
 void platformStart()
 {
-    //<platformStart>
     
-    //</platformStart>
 }
 // 3) Platform Loop Delay Function
 void platformLoopDelay()
 {
-   //<platformLoopDelay>
-    ;
-    //</platformLoopDelay>
+    consoleCharInt = Serial.read();
 }
 
 #ifdef __USINGCONSOLEMENU

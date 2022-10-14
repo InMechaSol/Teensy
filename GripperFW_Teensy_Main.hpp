@@ -42,74 +42,65 @@ PLATFORM_APP_CLASS(Mn);
 MODdeclareDATA(Mn);
 #endif
 
-struct devicedatastruct PacketsInterfactDevDataStruct;
-struct devicedatastruct ConsoleMenuDevDataStruct;
+struct devicedatastruct PacketsInterfactDevDataStruct = createDeviceStruct();
+struct devicedatastruct ConsoleMenuDevDataStruct = createDeviceStruct();
 
 
 ///////////////////////////////////////////////////////////////////////
 // Platform and Application Specific IO Device Functions
 void linkAPIioDevices(struct ccGripperStruct* gripperStructPtrIn)
 {
-    //satcomacsStructPtrIn->ConsoleMenu.devptr = &ConsoleMenuDevDataStruct;
-    //satcomacsStructPtrIn->LCDKeyPad.devptr = &LCDKeyPadDevDataStruct;
-    //ConsoleMenuDevDataStruct.triggerWriteOperation = ui8TRUE;
-    //satcomacsStructPtrIn->ConsoleMenu.showHelp = ui8TRUE;
-    //LCDKeyPadDevDataStruct.triggerWriteOperation = ui8TRUE;
+    ConsoleMenuDevDataStruct.numbytes2Read = 1;
+    gripperStructPtrIn->ConsoleMenu.devptr = &ConsoleMenuDevDataStruct;
+    gripperStructPtrIn->PacketsAPI.devptr = &PacketsInterfactDevDataStruct;
+    ConsoleMenuDevDataStruct.triggerWriteOperation = ui8TRUE;
+    gripperStructPtrIn->ConsoleMenu.showHelp = ui8TRUE;    
 }
-//std::thread stdInThread;
-UI_8 stdInThreadRunning = ui8FALSE;
-bool runONCE = true; // to launch std::in thread once
-void readStdIn(char* inStringPtr)
-{
-    //do {
-    //    if (stdInThreadRunning == ui8TRUE)
-    //    {
-    //        std::cin >> inStringPtr;
-    //        stdInThreadRunning = ui8FALSE;
-    //    }
-    //    std::this_thread::sleep_for(std::chrono::milliseconds(100));
-    //} while (true);
-}
+
 // 4) Basic ability for user console input via any io device
 void GetMenuChars(struct uiStruct* uiStructPtrin)
 {
 
-    //// if Consolue Menu
-    //if (uiStructPtrin->devptr == &ConsoleMenuDevDataStruct)
-    //{
-    //    if (stdInThreadRunning == ui8FALSE)
-    //    {
-    //        if (runONCE)
-    //        {
-    //            stdInThread = std::thread(readStdIn, &uiStructPtrin->devptr->inbuff.charbuff[0]);
-    //            runONCE = false;
-    //            stdInThreadRunning = ui8TRUE;
-    //        }
-    //        else if (uiStructPtrin->devptr->triggerWriteOperation == ui8FALSE)
-    //        {
-    //            uiStructPtrin->devptr->newDataReadIn = ui8TRUE;
-    //            uiStructPtrin->parseIndex = 0;
-    //            stdInThreadRunning = ui8TRUE;
-    //        }
-    //    }
-    //}
+    // if Consolue Menu
+    if (uiStructPtrin->devptr == &ConsoleMenuDevDataStruct)
+    {
+        if (consoleCharInt > -1)
+        {
+            if (uiStructPtrin->readIndex > 0 || (char)consoleCharInt != '\n')
+            {
+                uiStructPtrin->devptr->inbuff.charbuff[uiStructPtrin->readIndex] = (char)consoleCharInt;
+                if (uiStructPtrin->devptr->inbuff.charbuff[uiStructPtrin->readIndex] == ';')
+                {
+
+                    uiStructPtrin->devptr->inbuff.charbuff[uiStructPtrin->readIndex + 1] = 0x00;
+                    uiStructPtrin->devptr->newDataReadIn = ui8TRUE;
+                    uiStructPtrin->parseIndex = 0;
+                    uiStructPtrin->readIndex = 0;
+                    return;
+                }
+                if (++uiStructPtrin->readIndex >= charBuffMax)
+                    uiStructPtrin->readIndex = 0;
+            }
+
+        }
+    }
 }
 // 5) Basic ability for user console output
 void WriteMenuLine(struct uiStruct* uiStructPtrin)
 {
-    //// if Consolue Menu
-    //if (uiStructPtrin->devptr == &ConsoleMenuDevDataStruct)
-    //{
-    //    if (uiStructPtrin->clearScreen) {
-    //        std::cout << terminalClearString();
-    //        uiStructPtrin->clearScreen = ui8FALSE;
-    //    }
-    //    std::cout << &uiStructPtrin->devptr->outbuff.charbuff[0];
-    //    if (uiStructPtrin->showPrompt) {
-    //        std::cout << terminalPromptString(uiStructPtrin->currentUserLevel);
-    //        uiStructPtrin->showPrompt = ui8FALSE;
-    //    }
-    //}
+    // if Consolue Menu
+    if (uiStructPtrin->devptr == &ConsoleMenuDevDataStruct)
+    {
+        if (uiStructPtrin->clearScreen) {
+            Serial.print(terminalClearString());
+            uiStructPtrin->clearScreen = ui8FALSE;
+        }
+        Serial.print(&uiStructPtrin->devptr->outbuff.charbuff[0]);
+        if (uiStructPtrin->showPrompt) {
+            Serial.print(terminalPromptString(uiStructPtrin->currentUserLevel));
+            uiStructPtrin->showPrompt = ui8FALSE;
+        }
+    }
 
 }
 // 6) (Optional) Logging Output
