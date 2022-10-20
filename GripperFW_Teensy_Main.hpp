@@ -44,23 +44,90 @@ MODdeclareDATA(Mn);
 
 struct devicedatastruct PacketsInterfactDevDataStruct = createDeviceStruct();
 struct devicedatastruct ConsoleMenuDevDataStruct = createDeviceStruct();
-
+struct devicedatastruct SmartMotorsDevDataStruct[NUMMOTORS];
 
 ///////////////////////////////////////////////////////////////////////
 // Platform and Application Specific IO Device Functions
 void linkAPIioDevices(struct ccGripperStruct* gripperStructPtrIn)
 {
+    
+    int i;
+    for (i = 0; i < NUMMOTORS; i++)
+        gripperStructPtrIn->SmartMotors[i].devptr = &SmartMotorsDevDataStruct[i];
     ConsoleMenuDevDataStruct.numbytes2Read = 1;
-    gripperStructPtrIn->ConsoleMenu.devptr = &ConsoleMenuDevDataStruct;
-    gripperStructPtrIn->PacketsAPI.devptr = &PacketsInterfactDevDataStruct;
     ConsoleMenuDevDataStruct.triggerWriteOperation = ui8TRUE;
-    gripperStructPtrIn->ConsoleMenu.showHelp = ui8TRUE;    
+    gripperStructPtrIn->ConsoleMenu.devptr = &ConsoleMenuDevDataStruct;
+    gripperStructPtrIn->PacketsAPI.devptr = &PacketsInterfactDevDataStruct;    
+    gripperStructPtrIn->ConsoleMenu.showHelp = ui8TRUE;
+#ifdef EVENODDMOTORS
+    gripperStructPtrIn->SmartMotors[1].ModuleID = 1;
+    gripperStructPtrIn->SmartMotors[3].ModuleID = 1;
+#endif
+}
+
+void readMotorData(struct smartMotorStruct* smartMotorStructPtrIn)
+{
+    if (smartMotorStructPtrIn->devptr == &SmartMotorsDevDataStruct[0])
+    {
+        if (motor0CharInt > -1)
+        {
+            smartMotorStructPtrIn->devptr->inbuff.bytebuff[smartMotorStructPtrIn->devptr->numbytesReadIn++] = (UI_8)motor0CharInt;
+        }
+    }
+    else if (smartMotorStructPtrIn->devptr == &SmartMotorsDevDataStruct[1])
+    {
+        if (motor1CharInt > -1)
+        {
+            smartMotorStructPtrIn->devptr->inbuff.bytebuff[smartMotorStructPtrIn->devptr->numbytesReadIn++] = (UI_8)motor1CharInt;
+        }
+    }
+    else if (smartMotorStructPtrIn->devptr == &SmartMotorsDevDataStruct[2])
+    {
+        if (motor2CharInt > -1)
+        {
+            smartMotorStructPtrIn->devptr->inbuff.bytebuff[smartMotorStructPtrIn->devptr->numbytesReadIn++] = (UI_8)motor2CharInt;
+        }
+    }
+    else if (smartMotorStructPtrIn->devptr == &SmartMotorsDevDataStruct[3])
+    {
+        if (motor3CharInt > -1)
+        {
+            smartMotorStructPtrIn->devptr->inbuff.bytebuff[smartMotorStructPtrIn->devptr->numbytesReadIn++] = (UI_8)motor3CharInt;
+        }
+    }
+
+    if (smartMotorStructPtrIn->devptr->numbytesReadIn > 1)
+    {
+        if (smartMotorStructPtrIn->devptr->inbuff.bytebuff[1] + 5 == smartMotorStructPtrIn->devptr->numbytesReadIn)
+        {
+            smartMotorStructPtrIn->devptr->newDataReadIn = ui8TRUE;
+        }
+    }
+}
+void writeMotorData(struct smartMotorStruct* smartMotorStructPtrIn)
+{
+    if (smartMotorStructPtrIn->devptr == &SmartMotorsDevDataStruct[0])
+    {
+        smartMotorStructPtrIn->devptr->numbytesWritten = Serial1.write(&smartMotorStructPtrIn->devptr->outbuff.bytebuff[0],smartMotorStructPtrIn->devptr->numbytes2Write);
+    }
+    else if (smartMotorStructPtrIn->devptr == &SmartMotorsDevDataStruct[1])
+    {
+        smartMotorStructPtrIn->devptr->numbytesWritten = Serial2.write(&smartMotorStructPtrIn->devptr->outbuff.bytebuff[0], smartMotorStructPtrIn->devptr->numbytes2Write);
+    }
+    else if (smartMotorStructPtrIn->devptr == &SmartMotorsDevDataStruct[2])
+    {
+        smartMotorStructPtrIn->devptr->numbytesWritten = Serial3.write(&smartMotorStructPtrIn->devptr->outbuff.bytebuff[0], smartMotorStructPtrIn->devptr->numbytes2Write);
+    }
+    else if (smartMotorStructPtrIn->devptr == &SmartMotorsDevDataStruct[3])
+    {
+        smartMotorStructPtrIn->devptr->numbytesWritten = Serial4.write(&smartMotorStructPtrIn->devptr->outbuff.bytebuff[0], smartMotorStructPtrIn->devptr->numbytes2Write);
+    }
+
 }
 
 // 4) Basic ability for user console input via any io device
 void GetMenuChars(struct uiStruct* uiStructPtrin)
 {
-
     // if Consolue Menu
     if (uiStructPtrin->devptr == &ConsoleMenuDevDataStruct)
     {
@@ -71,7 +138,6 @@ void GetMenuChars(struct uiStruct* uiStructPtrin)
                 uiStructPtrin->devptr->inbuff.charbuff[uiStructPtrin->readIndex] = (char)consoleCharInt;
                 if (uiStructPtrin->devptr->inbuff.charbuff[uiStructPtrin->readIndex] == ';')
                 {
-
                     uiStructPtrin->devptr->inbuff.charbuff[uiStructPtrin->readIndex + 1] = 0x00;
                     uiStructPtrin->devptr->newDataReadIn = ui8TRUE;
                     uiStructPtrin->parseIndex = 0;

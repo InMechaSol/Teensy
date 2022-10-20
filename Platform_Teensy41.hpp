@@ -47,6 +47,10 @@ error PLATFORM_NAME must be Arduino
 
 
 int consoleCharInt = -1;
+int motor0CharInt = -1;
+int motor1CharInt = -1;
+int motor2CharInt = -1;
+int motor3CharInt = -1;
 
 
 // 0) (Optional) Platform Config and Log Files/Devices
@@ -59,11 +63,15 @@ void platformSetup()
     asm(".global _printf_float");
 #endif
 #endif
-   
+    Serial1.begin(115200);
+    Serial2.begin(115200);
+    Serial3.begin(115200);
+    Serial4.begin(115200);
     Serial.begin(115200);
     while (!Serial) {
         ; // wait for serial port to connect. Needed for native USB port only
     }
+    
 }
 // 2) Platform Start Function
 void platformStart()
@@ -74,6 +82,10 @@ void platformStart()
 void platformLoopDelay()
 {
     consoleCharInt = Serial.read();
+    motor0CharInt = Serial1.read();
+    motor1CharInt = Serial2.read();
+    motor2CharInt = Serial3.read();
+    motor3CharInt = Serial4.read();
 }
 
 #ifdef __USINGCONSOLEMENU
