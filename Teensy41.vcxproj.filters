@@ -44,10 +44,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="GripperFW_Teensy_Main.hpp">
+    <ClInclude Include="Platform_Teensy41.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Platform_Teensy41.hpp">
+    <ClInclude Include="ccNOosTests_Teensy_Main.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

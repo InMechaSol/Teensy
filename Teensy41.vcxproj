@@ -29,12 +29,12 @@
     <None Include="TeensyBuild.bat" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="GripperFW_Teensy_Main.hpp" />
+    <ClInclude Include="ccNOosTests_Teensy_Main.hpp" />
     <ClInclude Include="Platform_Teensy41.hpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
-    <ProjectGuid>{046D2F19-0296-4C15-9935-2344342151F1}</ProjectGuid>
+    <ProjectGuid>{7A2E368E-2524-4587-89C3-E74038C33C34}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
