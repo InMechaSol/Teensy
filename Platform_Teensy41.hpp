@@ -68,9 +68,9 @@ void platformSetup()
     Serial3.begin(115200);
     Serial4.begin(115200);
     Serial.begin(115200);
-    while (!Serial) {
-        ; // wait for serial port to connect. Needed for native USB port only
-    }
+    //while (!Serial) {
+    //    ; // wait for serial port to connect. Needed for native USB port only
+    //}
     
 }
 // 2) Platform Start Function

@@ -65,6 +65,8 @@ void linkAPIioDevices(struct ccGripperStruct* gripperStructPtrIn)
 #endif
 }
 
+UI_32 getMillis() { return millis(); }
+
 void readMotorData(struct smartMotorStruct* smartMotorStructPtrIn)
 {
     if (smartMotorStructPtrIn->devptr == &SmartMotorsDevDataStruct[0])
@@ -184,6 +186,7 @@ void ReadConfigLine(struct configStruct* configStructPtrin)
 
 ///////////////////////////////////////////////////////////////////////
 // Application Data Instances are Created here (Platform Specific)
+ccGripperVersionsTemplate
 #ifdef __cplusplus
 theApplicationClass theApplicationExample;
 #else
