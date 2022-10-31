@@ -67,6 +67,8 @@ void linkAPIioDevices(struct ccGripperStruct* gripperStructPtrIn)
 
 UI_32 getMillis() { return millis(); }
 
+//////////////////////////////////////////////////////////////////
+// Device Module IO Functions
 void readMotorData(struct smartMotorStruct* smartMotorStructPtrIn)
 {
     if (smartMotorStructPtrIn->devptr == &SmartMotorsDevDataStruct[0])
@@ -127,6 +129,9 @@ void writeMotorData(struct smartMotorStruct* smartMotorStructPtrIn)
 
 }
 
+
+/////////////////////////////////////////////////////////////////
+// API Module IO Funcitions
 // 4) Basic ability for user console input via any io device
 void GetMenuChars(struct uiStruct* uiStructPtrin)
 {
@@ -171,6 +176,20 @@ void WriteMenuLine(struct uiStruct* uiStructPtrin)
     }
 
 }
+
+
+void WritePacketBytes(struct packAPIStruct* uiStructPtrin)
+{
+    ;
+}
+void ReadPacketBytes(struct packAPIStruct* uiStructPtrin)
+{
+    ;
+}
+
+
+
+
 // 6) (Optional) Logging Output
 void WriteLogLine(struct logStruct* logStructPtrin)
 {

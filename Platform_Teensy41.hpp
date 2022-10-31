@@ -27,7 +27,8 @@ Notes:
 
 
 
-#include <Arduino.h>
+#include <NativeEthernet.h>
+#include <NativeEthernetUdp.h>
 #include "execution_system.h"    
 #include "console_menu.h" 
 #define LIGHT_OFF (0u)                          // 1-PSoC4, 0-most others
@@ -51,7 +52,19 @@ int motor0CharInt = -1;
 int motor1CharInt = -1;
 int motor2CharInt = -1;
 int motor3CharInt = -1;
+int udpByteInt = -1;
 
+EthernetUDP Udp;
+// Enter a MAC address and IP address for your controller below.
+// The IP address will be dependent on your local network:
+byte mac[] = {
+  0xDE, 0xAD, 0xBE, 0xEF, 0xF0, 0x0D
+};
+IPAddress ip(192, 168, 2, 100);
+IPAddress macbookIp(192, 168, 2, 1);
+IPAddress linuxIp(192, 168, 2, 2);
+IPAddress allComputersIp(192, 168, 2, 255);
+unsigned int localPort = 8888;      // local port to listen on
 
 // 0) (Optional) Platform Config and Log Files/Devices
 // 1) Platform Setup Function
@@ -68,6 +81,11 @@ void platformSetup()
     Serial3.begin(115200);
     Serial4.begin(115200);
     Serial.begin(115200);
+
+    Ethernet.begin(mac, ip); // establish the default IP address and MAC for the gripper
+    
+    
+    Udp.begin(localPort);
     //while (!Serial) {
     //    ; // wait for serial port to connect. Needed for native USB port only
     //}
@@ -86,6 +104,7 @@ void platformLoopDelay()
     motor1CharInt = Serial2.read();
     motor2CharInt = Serial3.read();
     motor3CharInt = Serial4.read();
+    udpByteInt = Udp.read();
 }
 
 #ifdef __USINGCONSOLEMENU
