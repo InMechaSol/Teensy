@@ -65,6 +65,7 @@ IPAddress macbookIp(192, 168, 2, 1);
 IPAddress linuxIp(192, 168, 2, 2);
 IPAddress allComputersIp(192, 168, 2, 255);
 unsigned int localPort = 8888;      // local port to listen on
+#define C_DEST_UDP_PORT 8889
 
 // 0) (Optional) Platform Config and Log Files/Devices
 // 1) Platform Setup Function

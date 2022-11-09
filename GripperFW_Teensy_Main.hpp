@@ -178,13 +178,41 @@ void WriteMenuLine(struct uiStruct* uiStructPtrin)
 }
 
 
-void WritePacketBytes(struct packAPIStruct* uiStructPtrin)
+void WritePacketBytes(struct packAPIStruct* packStructPtrin)
 {
-    ;
+    packStructPtrin->devptr->numbytesWritten = Udp.beginPacket(Udp.remoteIP(), C_DEST_UDP_PORT);
+    packStructPtrin->devptr->numbytesWritten += Udp.write(&packStructPtrin->devptr->outbuff.bytebuff[0], packStructPtrin->devptr->numbytes2Write);
+    packStructPtrin->devptr->numbytesWritten += Udp.endPacket();
 }
-void ReadPacketBytes(struct packAPIStruct* uiStructPtrin)
+void ReadPacketBytes(struct packAPIStruct* packStructPtrin)
 {
-    ;
+    // Arduino reading every main loop cycle, one byte at a time (small HW FIFOs)
+    if (udpByteInt > -1)
+    {
+        // If a new bytes was read in, store it to the buffer
+        packStructPtrin->devptr->inbuff.bytebuff[packStructPtrin->devptr->numbytesReadIn++] = udpByteInt;
+    }
+    // If at least the header length in bytes has been readin
+    if (packStructPtrin->devptr->numbytesReadIn > 4)
+    {
+        // If the expected length of packets has been readin
+        if (packStructPtrin->devptr->numbytesReadIn == packStructPtrin->devptr->inbuff.bytebuff[3])
+        {
+            // If the expected length is at both header and tail locations
+            if (packStructPtrin->devptr->inbuff.bytebuff[packStructPtrin->devptr->numbytesReadIn - 1] ==
+                packStructPtrin->devptr->inbuff.bytebuff[3])
+            {
+                // Its a packet, parse it
+                packStructPtrin->devptr->parseIndex = 0;
+                packStructPtrin->devptr->newDataReadIn = ui8TRUE;
+            }
+            else
+            {
+                // Its not a packet, reset the bytes readin counter/index
+                packStructPtrin->devptr->numbytesReadIn = 0;
+            }
+        }        
+    }
 }
 
 

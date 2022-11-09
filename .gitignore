@@ -13,3 +13,4 @@ build/*
 !build/README.md
 cache/*
 !cache/README.md
+/x64/Debug
