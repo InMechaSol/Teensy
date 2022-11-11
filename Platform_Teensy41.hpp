@@ -60,10 +60,8 @@ EthernetUDP Udp;
 byte mac[] = {
   0xDE, 0xAD, 0xBE, 0xEF, 0xF0, 0x0D
 };
-IPAddress ip(192, 168, 2, 100);
-IPAddress macbookIp(192, 168, 2, 1);
-IPAddress linuxIp(192, 168, 2, 2);
-IPAddress allComputersIp(192, 168, 2, 255);
+IPAddress ip(192, 168, 2, 254);
+//IPAddress linuxIp(192, 168, 2, 2);
 unsigned int localPort = 8888;      // local port to listen on
 #define C_DEST_UDP_PORT 8889
 
@@ -98,14 +96,15 @@ void platformStart()
     
 }
 // 3) Platform Loop Delay Function
+// Teensy 4.1 has 4 byte FIFOs for UARTs
+// Teensy 4.1 has 16 Word FIFOs for SPI/Ethernet/UDP
 void platformLoopDelay()
 {
     consoleCharInt = Serial.read();
     motor0CharInt = Serial1.read();
     motor1CharInt = Serial2.read();
     motor2CharInt = Serial3.read();
-    motor3CharInt = Serial4.read();
-    udpByteInt = Udp.read();
+    motor3CharInt = Serial4.read();    
 }
 
 #ifdef __USINGCONSOLEMENU
