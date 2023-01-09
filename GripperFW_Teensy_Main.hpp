@@ -42,6 +42,11 @@ PLATFORM_APP_CLASS(Mn);
 MODdeclareDATA(Mn);
 #endif
 
+float sqrtFloat(float inFloat)
+{
+    return sqrtf(inFloat);
+}
+
 struct devicedatastruct PacketsInterfactDevDataStruct = createDeviceStruct();
 struct devicedatastruct ConsoleMenuDevDataStruct = createDeviceStruct();
 struct devicedatastruct SmartMotorsDevDataStruct[NUMMOTORS];
