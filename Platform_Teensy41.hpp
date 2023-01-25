@@ -31,6 +31,7 @@ Notes:
 #include <NativeEthernetUdp.h>
 #include "execution_system.h"    
 #include "console_menu.h" 
+#include "abstractMATH.h"
 #define LIGHT_OFF (0u)                          // 1-PSoC4, 0-most others
 #define uSEC_PER_CLOCK (1000u)
 
@@ -117,3 +118,5 @@ PlatformAPIFuncsTemplate(size + 1);
 //executionSystemClass PLATFORM_EXESYS_NAME(PLATFORM_NAME)(uSEC_PER_CLOCK);
 // 10) ExeSys API Functions (From Template?)
 ExeSysAPIFuncsTemplate
+
+__standardMATH
